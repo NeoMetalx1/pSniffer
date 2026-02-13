@@ -1,0 +1,33 @@
+#pragma once
+
+#include <iostream>
+#include <pcap.h>
+
+class P_handler {
+private:
+    char errbuf[PCAP_ERRBUF_SIZE];
+
+    struct pcap_pkthdr  p_header;
+    const  u_char       *packet;
+
+    pcap_if_t   *alldevs;
+    pcap_if_t   *device;
+    pcap_t      *pcap_handle;
+
+    //
+
+    void p_err(const std::string& message, const char *errbuf); 
+    void p_debug(const std::string& message);
+    void p_device();
+
+    //
+    
+    void setDevice();
+    void initHandle();
+
+public:
+    P_handler();
+    ~P_handler();
+
+    void capturePacket();
+};
