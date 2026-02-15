@@ -72,18 +72,47 @@ void  P_handler::initHandle () {
 }
 
 
+void  P_handler::packetDump (const unsigned char *packet, const unsigned int lenght) {
+    
+    unsigned int byte;
+    unsigned int i, j;
+
+    for (i = 0; i < lenght; i++) {
+        byte = packet[i];
+        printf("%02x ", byte);
+
+        if (((i % 16) == 15) || (i == lenght - 1)) {
+
+            for (j = 0; j < 15-(i%16); j++)
+                printf("   ");
+            printf(" |");
+                
+            for (j = (i - (i % 16)); j <= i; j++) {
+                byte = packet[j];
+                if ((byte > 31) && (byte < 127))
+                    printf("%c", byte);
+                else
+                    printf(".");
+            }
+            printf("\n");
+        }
+    }
+}
+
+
 //public
 
 void  P_handler::capturePacket () {
     
-    while (true) {
-        packet = pcap_next(pcap_handle, &p_header);
-        std::cout << "[+] Received packet (size: " << p_header.len << "): \n";
+    packet = pcap_next(pcap_handle, &p_header);
+    std::cout << "----------------------------------------------------\n";
+    std::cout << "[+] Received packet (size: " << p_header.len << "): \n";
+    packetDump(packet, p_header.len);
 
-        if (!packet) {
-            std::cout << "[!] No received packets\n";
-            break;
-        }
+    if (!packet) {
+        std::cout << "[!] No received packets\n";
+        return;
     }
     return;
 }
+

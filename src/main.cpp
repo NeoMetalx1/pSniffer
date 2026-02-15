@@ -4,7 +4,11 @@ int main() {
 
     P_handler sniffer;
 
-    sniffer.capturePacket();
+    while(true) {
+        sniffer.capturePacket();
+    }
+
+
 
     return 0;
 }

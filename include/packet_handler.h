@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <stdio.h>
+#include <string.h>
 #include <pcap.h>
 
 class P_handler {
@@ -24,6 +26,8 @@ private:
     
     void setDevice();
     void initHandle();
+
+    void packetDump(const unsigned char *packet, const unsigned int lenght);
 
 public:
     P_handler();
