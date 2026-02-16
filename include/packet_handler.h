@@ -27,11 +27,11 @@ private:
     void setDevice();
     void initHandle();
 
-    void packetDump(const unsigned char *packet, const unsigned int lenght);
+    static void packetDump(u_char* user_args, const struct pcap_pkthdr* _p_header, const u_char* _packet );
 
 public:
     P_handler();
     ~P_handler();
 
-    void capturePacket();
+    void capturePacket(const unsigned int packet_count);
 };
