@@ -2,11 +2,14 @@
 
 int main() {
 
+
     P_handler sniffer;
-
-    sniffer.capturePacket(10);
-
+    std::cout << "[MAIN] CREATE OBJECT\n";
 
 
+    sniffer.capturePacket(-1);
+
+
+    std::cout << "[MAIN] END\n";
     return 0;
 }

@@ -12,7 +12,7 @@ struct ether_hdr {
     unsigned char ether_dest_addr[ETHER_ADDR_LEN];  // Target MAC-address
     unsigned char ether_src_addr[ETHER_ADDR_LEN];   // Source MAC-address
     unsigned short ether_type;  // Ethernet-packet type
-}
+};
 
 
 // IP structure taken from ip.h (RFC 791 internet-datagram)
@@ -28,7 +28,7 @@ struct ip_hdr {
     unsigned short ip_checksum;      //  Checksum
     unsigned int   ip_src_addr;      //  Source IP address
     unsigned int   ip_dest_addr;     //  Destination IP address
-}
+};
 
 // TCP structure taken from tcp.h (RFC 793 tcp header format)
 // TCP structure
@@ -50,6 +50,6 @@ struct tcp_hdr {
 
     unsigned short tcp_window       //  TCP window;
     unsigned short tcp_checksum;    //  Checksum;
-    unsigned short tco_urgent;      //  Urgency pointer
-}
+    unsigned short tcp_urgent;      //  Urgency pointer
+};
 
