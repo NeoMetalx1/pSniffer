@@ -48,7 +48,7 @@ struct tcp_hdr {
 #define TCP_ACK 0x10
 #define TCP_URG 0x20
 
-    unsigned short tcp_window       //  TCP window;
+    unsigned short tcp_window;      //  TCP window;
     unsigned short tcp_checksum;    //  Checksum;
     unsigned short tcp_urgent;      //  Urgency pointer
 };
