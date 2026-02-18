@@ -16,7 +16,7 @@ P_handler::~P_handler() {
 // private
 
 void  P_handler::p_err (const std::string& message, const char *errbuf) {
-    std::cout << "[ERROR] " << message << " | " << errbuf << '\n';
+    throw std::runtime_error(message + errbuf);
 }
 
 
@@ -28,7 +28,6 @@ void P_handler::p_device () {
 
     if (!device) {
         p_err("device empty", errbuf);            
-        return;
     }
 
     std::cout << "[DEVICE] : "<< device->name << '\n';
@@ -40,13 +39,11 @@ void  P_handler::initDevice () {
 
     if (pcap_findalldevs(&alldevs, errbuf) == -1) {
         p_err("Can't find devices", errbuf);
-        return;
     }
 
     device = alldevs;
     if (!device) {
         p_err("No device found", errbuf);
-        return;
     }
 }
 
@@ -64,7 +61,6 @@ void  P_handler::initHandle () {
 
     if (!pcap_handle) {
         p_err("Failed to open handler", errbuf);
-        return;
     }
 }
 
@@ -107,6 +103,11 @@ void  P_handler::p_dumpCallback (u_char* user_args,
 //public
 
 void  P_handler::capturePacket (const unsigned int packet_count) {
+
+    if (!pcap_handle) {
+        p_err("Can't capture (handle error)", errbuf);
+    }
+
     pcap_loop(pcap_handle, packet_count, p_dumpCallback, NULL);
 }
 
