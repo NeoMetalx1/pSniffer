@@ -15,9 +15,9 @@ private:
     const  u_char       *packet;
 
     //  Device parts
-    pcap_if_t   *alldevs;
-    pcap_if_t   *device;
-    pcap_t      *pcap_handle;
+    pcap_if_t   *alldevs     = nullptr;
+    pcap_if_t   *device      = nullptr;
+    pcap_t      *pcap_handle = nullptr;
 
     //  Debug tools
     void p_err(const std::string& message, const char *errbuf); 
