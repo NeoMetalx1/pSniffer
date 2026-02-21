@@ -1,4 +1,4 @@
-# pSniffer
+# pSniffer (⚠️ Soft is under development, no user friendly)
 
 pSniffer is a C++ tool for traffic analysis, that uses libpcap
 
