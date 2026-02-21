@@ -12,7 +12,7 @@ sudo pacman -S libpcap make
 Ubuntu / Debian:
 
 ```bash
-sudo apt-get libpcap-dev
+sudo apt-get install libpcap-dev
 ```
 Fedora:
 
