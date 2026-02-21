@@ -11,7 +11,7 @@
 struct ether_hdr {
     unsigned char ether_dest_addr[ETHER_ADDR_LEN];  // Target MAC-address
     unsigned char ether_src_addr[ETHER_ADDR_LEN];   // Source MAC-address
-    unsigned short ether_type;  // Ethernet-packet type
+    unsigned short ether_type;                      // Ethernet-packet type
 };
 
 
@@ -52,4 +52,9 @@ struct tcp_hdr {
     unsigned short tcp_checksum;    //  Checksum;
     unsigned short tcp_urgent;      //  Urgency pointer
 };
+
+
+void decode_eth(const u_char *p_header);
+void decode_ip(const u_char *p_header);
+void decode_tcp(const u_char *p_header);
 

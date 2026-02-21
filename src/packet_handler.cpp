@@ -66,7 +66,7 @@ void  P_handler::initHandle () {
 
 
 
-void  P_handler::p_dumpCallback (u_char* user_args,
+void  P_handler::p_dumpRawCallback (u_char* user_args,
                                  const struct pcap_pkthdr* _p_header,
                                  const u_char* _packet) {
     
@@ -100,14 +100,36 @@ void  P_handler::p_dumpCallback (u_char* user_args,
 }
 
 
+void P_handler::p_dumpLayersCallback(u_char* user_args,
+                                   const struct pcap_pkthdr* _p_header,
+                                   const u_char *packet) {
+    
+    std::cout << "----------------------------------------------------\n";
+    std::cout << "[+] Received packet (size: " << _p_header->len << "):\n";
+
+    decode_eth(packet);
+}
+
+
 //public
 
-void  P_handler::capturePacket (const unsigned int packet_count) {
+void  P_handler::capturePacket (const unsigned int packet_count, const unsigned int print_option) {
 
     if (!pcap_handle) {
         p_err("Can't capture (handle error)", errbuf);
     }
 
-    pcap_loop(pcap_handle, packet_count, p_dumpCallback, NULL);
+    switch (print_option) {
+        case P_RAW:
+            pcap_loop(pcap_handle, packet_count, p_dumpRawCallback, NULL);
+            break;
+        case P_LAYERS:
+            pcap_loop(pcap_handle, packet_count, p_dumpLayersCallback, NULL);
+            break;
+        default:
+            std::cout << "[!] Choose packet print option if capturePacket func\n";
+            break;
+    }
+
 }
 
