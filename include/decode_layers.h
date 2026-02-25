@@ -24,10 +24,10 @@ struct ip_hdr {
     unsigned short ip_id;            //  ID number
     unsigned short ip_frag_offset;   //  Element offset and flags
     unsigned char  ip_ttl;           //  Time of life
-    unsigned char  ip_proto_type;    //  Protocol type
+    unsigned char  ip_type;          //  Protocol type
     unsigned short ip_checksum;      //  Checksum
-    unsigned int   ip_src_addr;      //  Source IP address
-    unsigned int   ip_dest_addr;     //  Destination IP address
+    struct in_addr ip_src_addr;      //  Source IP address
+    struct in_addr ip_dest_addr;     //  Destination IP address
 };
 
 // TCP structure taken from tcp.h (RFC 793 tcp header format)

@@ -5,8 +5,11 @@
 #include <cstring>
 #include <iomanip>
 #include <pcap.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
 
 #include "decode_layers.h"
+
 
 //  Packet print options
 #define P_RAW 1

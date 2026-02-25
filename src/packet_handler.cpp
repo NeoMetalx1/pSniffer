@@ -108,6 +108,7 @@ void P_handler::p_dumpLayersCallback(u_char* user_args,
     std::cout << "[+] Received packet (size: " << _p_header->len << "):\n";
 
     decode_eth(packet);
+    decode_ip(packet+ETHER_HDR_LEN);
 }
 
 
@@ -127,7 +128,7 @@ void  P_handler::capturePacket (const unsigned int packet_count, const unsigned 
             pcap_loop(pcap_handle, packet_count, p_dumpLayersCallback, NULL);
             break;
         default:
-            std::cout << "[!] Choose packet print option if capturePacket func\n";
+            std::cout << "[!] Choose packet print option in capturePacket func\n";
             break;
     }
 
