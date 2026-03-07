@@ -38,7 +38,7 @@ struct tcp_hdr {
     unsigned int   tcp_seq;         //  TCP queue number
     unsigned int   tcp_ack;         //  TCP accept number
     unsigned char  tcp_reserved:4;  //  Reserve 4 bits from 6 reserved bits
-    unsigned char  tcp_offsed:4;    //  Data offset
+    unsigned char  tcp_offset:4;    //  Data offset
     unsigned char  tcp_flags;       //  TCP flags
 
 #define TCP_FIN 0x01
@@ -47,6 +47,8 @@ struct tcp_hdr {
 #define TCP_PUSH 0x08
 #define TCP_ACK 0x10
 #define TCP_URG 0x20
+#define TCP_ECE 0x40
+#define TCP_CWR 0x80
 
     unsigned short tcp_window;      //  TCP window;
     unsigned short tcp_checksum;    //  Checksum;

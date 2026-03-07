@@ -109,6 +109,7 @@ void P_handler::p_dumpLayersCallback(u_char* user_args,
 
     decode_eth(packet);
     decode_ip(packet+ETHER_HDR_LEN);
+    decode_tcp(packet+ETHER_HDR_LEN+sizeof(struct ip_hdr));
 }
 
 
