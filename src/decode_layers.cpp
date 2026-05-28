@@ -1,35 +1,35 @@
 #include "decode_layers.h"
 
-void  decode_eth (const u_char *p_header) {
+void  print_eth_header (const u_char *packet) {
 
     int i;
-    const struct ether_hdr *ethernet_header;
+    const struct ether_hdr *eth_header;
 
-    ethernet_header = (const struct ether_hdr *)p_header;
+    eth_header = (const struct ether_hdr *)packet;
     
     std::cout << std::dec;
     std::cout << "[ Layer 2 :: Ethernet Header ]\n";
     std::cout << "[ Source: " << std::hex << std::setw(2) << std::setfill('0') 
-                              << static_cast<int>(ethernet_header->ether_src_addr[0]);
+                              << static_cast<int>(eth_header->ether_src_addr[0]);
     for (i = 1; i < ETHER_ADDR_LEN; i++)
-        std::cout << ":" << static_cast<int>(ethernet_header->ether_src_addr[i]);
+        std::cout << ":" << static_cast<int>(eth_header->ether_src_addr[i]);
 
     std::cout << std::dec;
     std::cout << "\tDest: " << std::hex << std::setw(2) << std::setfill('0') 
-                            << static_cast<int>(ethernet_header->ether_dest_addr[0]);
+                            << static_cast<int>(eth_header->ether_dest_addr[0]);
     for (i = 1; i < ETHER_ADDR_LEN; i++)
-        std::cout << ":" << static_cast<int>(ethernet_header->ether_dest_addr[i]);
+        std::cout << ":" << static_cast<int>(eth_header->ether_dest_addr[i]);
     
     std::cout << std::dec;
-    std::cout << "  Type:  " << ethernet_header->ether_type << " ]\n";
+    std::cout << "  Type:  " << eth_header->ether_type << " ]\n";
 }
 
 
-void  decode_ip (const u_char *p_header) {
-    
+void  print_ip_header (const u_char *packet) {
+
     const struct ip_hdr *ip_header;
 
-    ip_header = (const struct ip_hdr *)p_header;
+    ip_header = (const struct ip_hdr *)packet;
 
     std::cout << "[ Layer 3 :: IP Header ]\n";
     std::cout << "[ Source: " << inet_ntoa(ip_header->ip_src_addr);
@@ -41,11 +41,11 @@ void  decode_ip (const u_char *p_header) {
 }
 
 
-void  decode_tcp (const u_char *p_header) {
+void  print_tcp_header (const u_char *packet) {
     
     const struct tcp_hdr *tcp_header;
 
-    tcp_header = (const struct tcp_hdr *)p_header;
+    tcp_header = (const struct tcp_hdr *)packet;
     u_int header_size = 4 * tcp_header->tcp_offset;
 
     std::cout << "[ Layer 4 :: TCP Header ]\n";
@@ -56,34 +56,22 @@ void  decode_tcp (const u_char *p_header) {
     std::cout << "{ Header Size: " << header_size;
     std::cout << "\t Flag: ";
     
-    switch (tcp_header->tcp_flags) {
-        case TCP_FIN:
-            std::cout << "FIN ";
-            break;
-        case TCP_SYN:
-            std::cout << "SYN ";
-            break;
-        case TCP_RST:
-            std::cout << "RST ";
-            break;
-        case TCP_PUSH:
-            std::cout << "PUSH ";
-            break;
-        case TCP_ACK:
-            std::cout << "ACK ";
-            break;
-        case TCP_URG:
-            std::cout << "URG ";
-            break;
-        case TCP_ECE:
-            std::cout << "ECE ";
-            break;
-        case TCP_CWR:
-            std::cout << "CWR ";
-            break;
-        default:
-            std::cout << "NONE ";
-            break;
-    }
+    if (tcp_header->tcp_flags & TCP_FIN)
+        std::cout << "FIN ";
+    if (tcp_header->tcp_flags & TCP_SYN)
+        std::cout << "SYN ";
+    if (tcp_header->tcp_flags & TCP_RST)
+        std::cout << "RST ";
+    if (tcp_header->tcp_flags & TCP_PUSH)
+        std::cout << "PUSH ";
+    if (tcp_header->tcp_flags & TCP_ACK)
+        std::cout << "ACK ";
+    if (tcp_header->tcp_flags & TCP_URG)
+        std::cout << "URG ";
+    if (tcp_header->tcp_flags & TCP_ECE)
+        std::cout << "ECE ";
+    if (tcp_header->tcp_flags & TCP_CWR)
+        std::cout << "CWR ";
+
     std::cout << "}\n";
 }

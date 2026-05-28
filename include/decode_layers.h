@@ -55,8 +55,6 @@ struct tcp_hdr {
     unsigned short tcp_urgent;      //  Urgency pointer
 };
 
-
-void decode_eth(const u_char *p_header);
-void decode_ip(const u_char *p_header);
-void decode_tcp(const u_char *p_header);
-
+void print_eth_header(const u_char *packet);
+void print_ip_header(const u_char *packet);
+void print_tcp_header(const u_char *packet);

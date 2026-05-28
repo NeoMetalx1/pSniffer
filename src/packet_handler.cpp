@@ -2,14 +2,14 @@
 
 // constructor and destructor
 
-P_handler::P_handler() {
+P_handler::P_handler() : packet(nullptr), p_header(nullptr) {
     initDevice();
     initHandle();
 }
 
 P_handler::~P_handler() {
     pcap_freealldevs(alldevs);
-    pcap_close(pcap_handle);
+    pcap_close(pcap_handler);
 }
 
 
@@ -51,7 +51,7 @@ void  P_handler::initDevice () {
 
 void  P_handler::initHandle () {
     
-    pcap_handle = pcap_open_live(
+    pcap_handler = pcap_open_live(
         device->name,
         4096,
         1,
@@ -59,7 +59,7 @@ void  P_handler::initHandle () {
         errbuf
     );
 
-    if (!pcap_handle) {
+    if (!pcap_handler) {
         p_err("Failed to open handler", errbuf);
     }
 }
@@ -102,14 +102,14 @@ void  P_handler::p_dumpRawCallback (u_char* user_args,
 
 void P_handler::p_dumpLayersCallback(u_char* user_args,
                                    const struct pcap_pkthdr* _p_header,
-                                   const u_char *packet) {
+                                   const u_char *_packet) {
     
     std::cout << "----------------------------------------------------\n";
     std::cout << "[+] Received packet (size: " << _p_header->len << "):\n";
 
-    decode_eth(packet);
-    decode_ip(packet+ETHER_HDR_LEN);
-    decode_tcp(packet+ETHER_HDR_LEN+sizeof(struct ip_hdr));
+    print_eth_header(_packet);
+    print_ip_header(_packet+ETHER_HDR_LEN);
+    print_tcp_header(_packet+ETHER_HDR_LEN+sizeof(struct ip_hdr));
 }
 
 
@@ -117,16 +117,16 @@ void P_handler::p_dumpLayersCallback(u_char* user_args,
 
 void  P_handler::capturePacket (const unsigned int packet_count, const unsigned int print_option) {
 
-    if (!pcap_handle) {
+    if (!pcap_handler) {
         p_err("Can't capture (handle error)", errbuf);
     }
 
     switch (print_option) {
         case P_RAW:
-            pcap_loop(pcap_handle, packet_count, p_dumpRawCallback, NULL);
+            pcap_loop(pcap_handler, packet_count, p_dumpRawCallback, NULL);
             break;
         case P_LAYERS:
-            pcap_loop(pcap_handle, packet_count, p_dumpLayersCallback, NULL);
+            pcap_loop(pcap_handler, packet_count, p_dumpLayersCallback, NULL);
             break;
         default:
             std::cout << "[!] Choose packet print option in capturePacket func\n";
